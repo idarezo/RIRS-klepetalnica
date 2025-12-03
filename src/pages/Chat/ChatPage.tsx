@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../App";
 import axios from "axios";
 import "./ChatPage.css";
-import { FiSend, FiLogOut } from "react-icons/fi";
+import { FiSend, FiLogOut, FiUser } from "react-icons/fi";
 
 interface User {
   _id: string;
@@ -175,9 +175,22 @@ const ChatPage: React.FC = () => {
             </div>
           )}
         </div>
-        <button onClick={handleLogout} className="logout-button" title="Odjava">
-          <FiLogOut size={20} />
-        </button>
+        <div className="header-buttons">
+          <button
+            onClick={() => navigate("/profile")}
+            className="profile-button"
+            title="Profil"
+          >
+            <FiUser size={20} />
+          </button>
+          <button
+            onClick={handleLogout}
+            className="logout-button"
+            title="Odjava"
+          >
+            <FiLogOut size={20} />
+          </button>
+        </div>
       </header>
 
       <div

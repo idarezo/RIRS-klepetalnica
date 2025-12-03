@@ -74,7 +74,7 @@
   line-height: 1.6;
 }
 
-.logout-button {
+.welcome-logout-button {
   background-color: #ff4d4f;
   color: white;
   border: none;
@@ -88,13 +88,13 @@
   letter-spacing: 0.5px;
 }
 
-.logout-button:hover {
+.welcome-logout-button:hover {
   background-color: #ff7875;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.logout-button:active {
+.welcome-logout-button:active {
   transform: translateY(0);
 }
 

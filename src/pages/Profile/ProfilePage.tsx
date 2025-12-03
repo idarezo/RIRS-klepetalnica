@@ -1,22 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../App";
+import { FiUser, FiLogOut } from "react-icons/fi";
+import "./ProfilePage.css";
 
 const ProfilePage: React.FC = () => {
   const [userData, setUserData] = useState({
-    username: "uporabnik123",
-    email: "uporabnik@example.com",
-    fullName: "Janez Novak",
-    bio: "Lahko mi pišete sporočila!",
+    username: "",
+    email: "",
+    firstName: "",
+    lastName: "",
   });
+
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
   const { logout } = useAuth();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+
+    if (storedUser) {
+      try {
+        const user = JSON.parse(storedUser);
+        setUserData({
+          username: user.username || "",
+          email: user.email || "",
+          firstName: user.firstName || "",
+          lastName: user.lastName || "",
+        });
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
+    }
+  }, []);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
+
     setUserData((prev) => ({
       ...prev,
       [name]: value,
@@ -24,8 +46,24 @@ const ProfilePage: React.FC = () => {
   };
 
   const handleSave = () => {
-    // TODO: Implement save to backend
-    setIsEditing(false);
+    const storedUser = localStorage.getItem("user");
+
+    if (storedUser) {
+      try {
+        const user = JSON.parse(storedUser);
+
+        const updatedUser = {
+          ...user,
+          firstName: userData.firstName,
+          lastName: userData.lastName,
+        };
+
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+        setIsEditing(false);
+      } catch (error) {
+        console.error("Error saving user data:", error);
+      }
+    }
   };
 
   const handleLogout = () => {
@@ -34,102 +72,70 @@ const ProfilePage: React.FC = () => {
   };
 
   return (
-    <div className="profile-page">
-      <div className="profile-header">
-        <h1>Moj profil</h1>
-        <div className="profile-actions">
-          {isEditing ? (
-            <>
-              <button onClick={handleSave} className="save-button">
-                Shrani
-              </button>
-              <button
-                onClick={() => setIsEditing(false)}
-                className="cancel-button"
-              >
-                Prekliči
-              </button>
-            </>
-          ) : (
-            <button onClick={() => setIsEditing(true)} className="edit-button">
-              Uredi profil
-            </button>
-          )}
-          <button onClick={handleLogout} className="logout-button">
-            Odjava
-          </button>
-        </div>
-      </div>
+    <div className="profile-page-container">
+      <div className="profile-page">
+        <div className="profile-header"></div>
 
-      <div className="profile-content">
-        <div className="profile-avatar">
-          <div className="avatar-placeholder">
-            {userData.username.charAt(0).toUpperCase()}
-          </div>
-          {isEditing && (
-            <button className="change-avatar-button">Spremeni sliko</button>
-          )}
-        </div>
+        <div className="profile-content">
+          <div className="profile-avatar">
+            <div className="avatar-placeholder">
+              {userData.firstName
+                ? userData.firstName.charAt(0).toUpperCase()
+                : "U"}
+            </div>
 
-        <div className="profile-details">
-          <div className="form-group">
-            <label>Uporabniško ime</label>
-            {isEditing ? (
-              <input
-                type="text"
-                name="username"
-                value={userData.username}
-                onChange={handleInputChange}
-                className="form-input"
-              />
-            ) : (
-              <p>{userData.username}</p>
+            {isEditing && (
+              <button className="change-avatar-button">Spremeni sliko</button>
             )}
           </div>
 
-          <div className="form-group">
-            <label>E-pošta</label>
-            {isEditing ? (
-              <input
-                type="email"
-                name="email"
-                value={userData.email}
-                onChange={handleInputChange}
-                className="form-input"
-              />
-            ) : (
+          <div className="profile-details">
+            <div className="form-group">
+              <label>Ime</label>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="firstName"
+                  value={userData.firstName}
+                  onChange={handleInputChange}
+                  className="form-input"
+                />
+              ) : (
+                <p>{userData.firstName}</p>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label>Priimek</label>
+              {isEditing ? (
+                <input
+                  type="text"
+                  name="lastName"
+                  value={userData.lastName}
+                  onChange={handleInputChange}
+                  className="form-input"
+                />
+              ) : (
+                <p>{userData.lastName}</p>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label>E-pošta</label>
               <p>{userData.email}</p>
-            )}
+            </div>
           </div>
 
-          <div className="form-group">
-            <label>Polno ime</label>
-            {isEditing ? (
-              <input
-                type="text"
-                name="fullName"
-                value={userData.fullName}
-                onChange={handleInputChange}
-                className="form-input"
-              />
-            ) : (
-              <p>{userData.fullName}</p>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label>O meni</label>
-            {isEditing ? (
-              <textarea
-                name="bio"
-                value={userData.bio}
-                onChange={handleInputChange}
-                className="form-textarea"
-                rows={4}
-              />
-            ) : (
-              <p>{userData.bio}</p>
-            )}
+          <div className="back-to-chat">
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/chat");
+              }}
+            >
+              ← Nazaj na chat
+            </a>
           </div>
         </div>
       </div>
