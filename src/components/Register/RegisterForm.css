@@ -1,0 +1,41 @@
+body {
+  background-color: #c3cfe2;
+}
+
+button {
+  background-color: #4a90e2;
+}
+
+.register-form {
+  width: 100%;
+  max-width: 800px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem 2.5rem; /* Increased vertical and horizontal gap */
+  margin: 2rem 0; /* Added more vertical margin */
+}
+
+/* Ensure all form groups take only one column */
+.form-grid .form-group {
+  grid-column: span 1 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group:last-child {
+    grid-column: auto;
+  }
+}
