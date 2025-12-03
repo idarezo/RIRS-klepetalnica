@@ -6,7 +6,7 @@
   margin: 0;
   padding: 0;
   background-color: #f0f2f5;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   box-sizing: border-box;
   position: fixed;
   top: 0;
@@ -188,26 +188,42 @@
   box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
 }
 
+.header-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.profile-button,
 .logout-button {
   background: rgba(255, 255, 255, 0.15);
   border: none;
   color: white;
   cursor: pointer;
-  padding: 6px 8px;
+  padding: 8px 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 20px;
   transition: all 0.2s ease;
-  width: 36px;
-  height: 36px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
+.profile-button {
+  width: 36px;
+  height: 36px;
+  padding: 6px 8px;
+}
+
+.profile-button:hover,
 .logout-button:hover {
   background: rgba(255, 255, 255, 0.25);
   transform: scale(1.05);
 }
 
+.profile-button:active,
 .logout-button:active {
   transform: scale(0.95);
 }
